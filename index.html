@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <title></title>
+        
+    <meta charset="utf-8">
+        
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+        
+</head>
+
+
+<body>
+
+
+        <div class=" jumbotron text-center">
+                <h1 style="font-family: fantasy">Random Slips of Advice</h1>
+        <h2 style="font-family:fantasy">Data from <a href="https://api.adviceslip.com/" style="font-family:fantasy">https://api.adviceslip.com/</a> </h2>
+        <img src="fortune.png" width="400" height="200">
+            
+    </div>
+
+        <div class="container">
+                <div class="row">
+                        <div>
+                                <input type="button" onclick="getSlip()" value="Get a random slip of advice" style="font-family: fantasy"> <br>
+
+
+                <p id="output" style="font-family: fantasy"></p>
+
+                <p id="output"> </p>
+
+
+                <br>
+                       
+            </div>
+                    </div>
+            </div>
+
+        <script>
+        function getSlip() {
+            fetch('	https://api.adviceslip.com/advice', {
+                    headers: new Headers({
+                        'Accept': 'application/json'
+                    })
+                })
+
+                .then((response) => {
+                    return response.json();
+                })
+                .then((myJson) => {
+                    console.log(myJson);
+                    let p = document.getElementById('output');
+
+                    p.textContent = myJson.slip.advice;
+                });
+        }
+
+
+        function searchForSlip() {
+            let searchTerm = document.getElementById('searchTerm').value;
+            console.log(searchTerm);
+            let url = '	https://api.adviceslip.com/advice/search/' + searchTerm;
+            fetch(url, {
+                    headers: new Headers({
+                        'Accept': 'application/json'
+                    })
+                })
+
+                .then((response) => {
+                    return response.json();
+                })
+                .then((myJson) => {
+                    console.log(myJson);
+                    let slip = myJson.results;
+                    let p = document.getElementById('output');
+                    for (var i = 0; i < slip.length; i++) {
+                        p.innerHTML += slip[i].slip + '<br>';
+                    }
+
+                });
+        }
+
+    </script>
